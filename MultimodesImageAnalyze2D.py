@@ -187,19 +187,20 @@ for idx, row in param_df.iterrows():
 
     power_ratio = mode_power_ratio(Amp11_fit, Amp12_fit, a_fit)
 
-    # Plotting
-    fig, axs = plt.subplots(1, 3, figsize=(15, 4))
-    axs[0].imshow(I_exp_2D, cmap='gray', origin='lower')
+
+    # Plotting (remove residual map, add color bars)
+    fig, axs = plt.subplots(1, 2, figsize=(10, 4))
+    im0 = axs[0].imshow(I_exp_2D, cmap='gray', origin='lower')
     axs[0].set_title('Experimental Image')
     axs[0].axis('off')
+    cbar0 = fig.colorbar(im0, ax=axs[0], fraction=0.046, pad=0.04)
+    cbar0.set_label('Intensity')
 
-    axs[1].imshow(I_fit_2D / np.max(I_fit_2D), cmap='hot', origin='lower')
+    im1 = axs[1].imshow(I_fit_2D / np.max(I_fit_2D), cmap='hot', origin='lower')
     axs[1].set_title('Fitted Mode Intensity')
     axs[1].axis('off')
-
-    axs[2].imshow(np.abs(I_exp_2D - I_fit_2D / np.max(I_fit_2D)), cmap='viridis', origin='lower')
-    axs[2].set_title('Residual Map')
-    axs[2].axis('off')
+    cbar1 = fig.colorbar(im1, ax=axs[1], fraction=0.046, pad=0.04)
+    cbar1.set_label('Intensity')
 
     fig.suptitle(
         f"{filepath}\n"
